@@ -33,7 +33,7 @@ actions.searchPhotos = (req, res, next) => {
 				photoSources.map((photoSource) => {
 					return photoSource.getUserPhotos(req.photoSearchParams)
 						.catch((error) => {
-							console.error(error); // eslint-disable-line no-console
+							console.error(photoSource.type, error); // eslint-disable-line no-console
 							return [];
 						});
 				})

@@ -45,7 +45,7 @@ class Five00pxSource extends PhotoSource {
 			})
 			.then((photos) => {
 				return Promise.all(photos.map((photo) => {
-					return that.jsonToPhoto(photo);
+					return that.getPhoto(photo.id);
 				}));
 			});
 	}

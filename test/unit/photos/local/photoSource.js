@@ -1,7 +1,6 @@
 "use strict";
 
 const path = require("path");
-const fs = require("fs");
 const mocha = require("mocha");
 const describe = mocha.describe;
 const it = mocha.it;
@@ -43,9 +42,7 @@ describe("LocalSource", () => {
 					photos.map((photo) => {
 						expect(photo).to.be.instanceOf(Photo);
 					});
-					expect(photos.length).to.be.eql(
-						_.filter(fs.readdirSync(process.env.LOCAL_DIRECTORY), PhotoSource.fileIsSupported).length
-					);
+					expect(photos.length).to.be.eql(10);
 					expect(photos).to.eql(
 						_.sortBy(photos,
 							(photo) => {

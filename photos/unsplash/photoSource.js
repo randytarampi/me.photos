@@ -20,25 +20,23 @@ class UnsplashSource extends PhotoSource {
 
 	getUserPhotos(params) {
 		params = params instanceof SearchParams ? params : new SearchParams(params);
-		const that = this;
 		const unsplashRequest = this.client.users.photos(process.env.UNSPLASH_USER_NAME, params.page, params.perPage, params.orderBy);
 
 		return unsplashRequest
 			.then(toJson)
 			.then((response) => {
 				return Promise.all(response.map((photo) => {
-					return that.jsonToPhoto(photo);
+					return this.getPhoto(photo.id);
 				}));
 			});
 	}
 
 	getPhoto(photoId, params) {
 		params = params instanceof SearchParams ? params : new SearchParams(params);
-		const that = this;
 		return this.client.photos.getPhoto(photoId, params.width, params.height, params.crop)
 			.then(toJson)
 			.then((photo) => {
-				return that.jsonToPhoto(photo);
+				return this.jsonToPhoto(photo);
 			});
 	}
 

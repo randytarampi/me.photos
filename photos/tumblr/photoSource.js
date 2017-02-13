@@ -20,35 +20,34 @@ class TumblrSource extends PhotoSource {
 
 	getUserPhotos(params) {
 		params = params instanceof SearchParams ? params : new SearchParams(params);
-		const that = this;
 
-		return this.client.blogPosts(process.env.TUMBLR_USER_NAME, params.Tumblr)
+		return this.client.blogPosts(process.env.TUMBLR_USER_NAME, "photo", params.Tumblr)
 			.then((response) => {
-				return _.chain(response.posts)
-					.map((postJson) => {
-						return postJson.photos.map((photoJson) => {
-							return that.jsonToPhoto(photoJson, postJson, response.blog);
-						});
+				return Promise.all(
+					response.posts.map((postJson) => {
+						return this.getPhoto(postJson.id);
 					})
-					.flatten()
-					.value();
-			});
+				);
+			})
+			.then(_.flatten);
 	}
 
 	getPhoto(photoId, params) {
-		const that = this;
+		params = params instanceof SearchParams ? params : new SearchParams(params);
 
-		return this.client.blogPosts(process.env.TUMBLR_USER_NAME, _.extend({id: photoId}, params.Tumblr))
+		return this.client.blogPosts(process.env.TUMBLR_USER_NAME, "photo", _.extend({id: photoId}, params.Tumblr))
 			.then((response) => {
-				return _.chain(response.posts)
-					.map((postJson) => {
-						return postJson.photos.map((photoJson) => {
-							return that.jsonToPhoto(photoJson, postJson, response.blog);
-						});
+				return Promise.all(
+					response.posts.map((postJson) => {
+						return Promise.all(
+							postJson.photos.map((photoJson) => {
+								return this.jsonToPhoto(photoJson, postJson, response.blog);
+							})
+						);
 					})
-					.flatten()
-					.value();
-			});
+				);
+			})
+			.then(_.flatten);
 	}
 
 	jsonToPhoto(photoJson, postJson, blogJson) {

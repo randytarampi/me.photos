@@ -29,7 +29,6 @@ class FlickrSource extends PhotoSource {
 
 	getUserPhotos(params) {
 		params = params instanceof SearchParams ? params : new SearchParams(params);
-		const that = this;
 		const client = this.client;
 		const userId = process.env.FLICKR_USER_ID;
 		let flickrRequest = Promise.resolve(userId);
@@ -64,7 +63,7 @@ class FlickrSource extends PhotoSource {
 			})
 			.then((photos) => {
 				return photos.map((photo) => {
-					return that.jsonToPhoto((photo));
+					return this.jsonToPhoto((photo));
 				});
 			});
 	}

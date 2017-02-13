@@ -34,43 +34,15 @@ class LocalSource extends PhotoSource {
 		})
 			.then((fileNames) => {
 				return Promise.all(fileNames.map((fileName) => {
-					const filePath = path.join(process.env.LOCAL_DIRECTORY, fileName);
-
-					return new Promise((resolve, reject) => {
-						fs.lstat(filePath, (error, lstat) => {
-							if (error) {
-								reject(error);
-								return;
-							}
-
-							resolve({
-								lstat: lstat,
-								fileName: fileName,
-								filePath: filePath
-							});
-						});
-					});
+					return this.getPhoto(path.join(process.env.LOCAL_DIRECTORY, fileName));
 				}));
 			})
-			.then((files) => {
+			.then((photos) => {
 				const page = isNaN(params.page) ? 1 : params.page;
-				return Promise.all(_.sortBy(files,
-					(file) => {
-						return -1 * file.lstat.ctime;
+				return _.sortBy(photos, (photo) => {
+						return -1 * photo.dateCreated.valueOf();
 					})
-					.slice((page - 1) * params.perPage, page * params.perPage)
-					.map((file) => {
-						return new Promise((resolve, reject) => {
-							lwip.open(file.filePath, (error, image) => {
-								if (error) {
-									reject(error);
-									return;
-								}
-
-								resolve(this.jsonToPhoto(file.filePath, file.fileName, file.lstat, image.width(), image.height()));
-							});
-						});
-					}));
+					.slice((page - 1) * params.perPage, page * params.perPage);
 			});
 	}
 

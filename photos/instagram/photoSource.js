@@ -16,7 +16,6 @@ class InstagramSource extends PhotoSource {
 
 	getUserPhotos(params) {
 		params = params instanceof SearchParams ? params : new SearchParams(params);
-		const that = this;
 		const client = this.client;
 		const userId = process.env.INSTAGRAM_USER_ID;
 		let instagramRequest = Promise.resolve(userId);
@@ -33,19 +32,21 @@ class InstagramSource extends PhotoSource {
 				return client.userMedia(userId, params.Instagram);
 			})
 			.then((mediaJson) => {
-				return _.chain(mediaJson.data)
-					.filter({type: "image"})
-					.map(_.bind(that.jsonToPhoto, that))
-					.value();
+				return Promise.all(
+					_.chain(mediaJson.data)
+						.filter({type: "image"})
+						.map(_.bind((photoJson) => {
+							return this.getPhoto(photoJson.id);
+						}, this))
+						.value()
+				);
 			});
 	}
 
 	getPhoto(photoId) {
-		const that = this;
-
 		return this.client.media(photoId)
 			.then((photoJson) => {
-				return that.jsonToPhoto(photoJson.data);
+				return this.jsonToPhoto(photoJson.data);
 			});
 	}
 
