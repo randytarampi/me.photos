@@ -41,7 +41,7 @@ class SearchParams {
 	}
 
 	get perPage() {
-		return _.isFinite(this.__perPage) ? this.__perPage : 100;
+		return _.isFinite(this.__perPage) ? this.__perPage : 10;
 	}
 
 	set perPage(rpp) {

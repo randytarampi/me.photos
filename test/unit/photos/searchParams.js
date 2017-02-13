@@ -13,29 +13,29 @@ describe("SearchParams", () => {
 
 			expect(searchParams).to.be.ok;
 			expect(searchParams.page).to.eql(1);
-			expect(searchParams.perPage).to.eql(100);
+			expect(searchParams.perPage).to.eql(10);
 		});
 	});
 
 	describe(".perPage", () => {
-		it("should default to 100", () => {
+		it("should default to 10", () => {
 			const searchParams = new SearchParams();
 
-			expect(searchParams.perPage).to.eql(100);
+			expect(searchParams.perPage).to.eql(10);
 		});
 
 		it("should be mutable", () => {
 			const searchParams = new SearchParams();
 
-			expect(searchParams.perPage).to.eql(100);
+			expect(searchParams.perPage).to.eql(10);
 
 			searchParams.perPage++;
-			expect(searchParams.perPage).to.eql(101);
-			expect(searchParams.__perPage).to.eql(101);
+			expect(searchParams.perPage).to.eql(11);
+			expect(searchParams.__perPage).to.eql(11);
 
 			searchParams.perPage--;
-			expect(searchParams.perPage).to.eql(100);
-			expect(searchParams.__perPage).to.eql(100);
+			expect(searchParams.perPage).to.eql(10);
+			expect(searchParams.__perPage).to.eql(10);
 
 			searchParams.perPage = -1;
 			expect(searchParams.perPage).to.eql(-1);
@@ -45,10 +45,10 @@ describe("SearchParams", () => {
 		it("checks for a finite value", () => {
 			const searchParams = new SearchParams();
 
-			expect(searchParams.perPage).to.eql(100);
+			expect(searchParams.perPage).to.eql(10);
 
 			searchParams.perPage = -Infinity;
-			expect(searchParams.perPage).to.eql(100);
+			expect(searchParams.perPage).to.eql(10);
 			expect(searchParams.__perPage).to.eql(-Infinity);
 		});
 	});
