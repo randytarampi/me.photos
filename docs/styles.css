@@ -11330,7 +11330,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 .text {
   line-height: 1.5;
-  padding: 0.2em 0.4rem;
+  padding: 0.1em 0.5rem;
   background-color: black;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
@@ -11376,7 +11376,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 .post-text {
   line-height: 1.5;
-  padding: 0.2em 0.4rem;
+  padding: 0.1em 0.5rem;
   background-color: black;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
@@ -11393,7 +11393,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 .photo-text {
   line-height: 1.5;
-  padding: 0.2em 0.4rem;
+  padding: 0.1em 0.5rem;
   background-color: black;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
